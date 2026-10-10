@@ -195,7 +195,14 @@
 
             <!-- Mobile Hamburger Toggle -->
             <div class="md:hidden">
-                <button id="mobile-toggle" class="text-white text-2xl p-2 focus:outline-none">
+                <button 
+                    id="mobile-toggle"
+                    type="button"
+                    onclick="document.getElementById('mobile-nav').classList.toggle('hidden')"
+                    class="text-white text-2xl p-2 focus:outline-none"
+                    aria-label="Open navigation menu"
+    >
+
                     <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
