@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trimex Connect - College of Computer Studies</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        trimexRed: '#7A0000',
+                        trimexDarkRed: '#540000',
+                        trimexLightRed: '#990000',
+                        trimexCardBg: 'rgba(255, 255, 255, 0.75)',
+                    },
+                    fontFamily: {
+                        sans: ['Arial', 'Helvetica', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Exact layout background: Trimex campus aerial view with subtle overlay */
+        body {
+            font-family: 'Arial Black', 'Arial', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 0;
+            padding: 0;
+        }
+
+        .bg-campus-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('https://tse4.mm.bing.net/th/id/OIP.3z1EjWZf0ymrFVMEyjMtlAHaEP?r=0&pid=Api&h=220&P=0');
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: -1;
+        }
+
+        /* Replica Canva White Rounded Container Cards */
+        .canva-card-container {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(5px);
+            border-radius: 28px;
+            padding: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+        }
+
+        /* Inner card hover animation */
+        .canva-card {
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .canva-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Gazette Background Overlay */
+        .gazette-container {
+            background: linear-gradient(rgba(122, 0, 0, 0.85), rgba(84, 0, 0, 0.92)), url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Dropdown styles */
+        .nav-item-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Scrollbar customization */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #540000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a30000;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="relative">
+
+    <!-- Campus Background Layer -->
+    <div class="bg-campus-image"></div>
+    <div class="bg-overlay"></div>
+
+    <header class="bg-trimexRed text-white sticky top-0 z-50 shadow-2xl border-b-2 border-red-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
+            
+            <!-- Exact Top-Left Logo Replica -->
+            <a href="#" onclick="switchView('home-view')" class="flex items-center space-x-3 group py-1">
+                <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center p-1 border-2 border-yellow-400 shadow-lg group-hover:scale-105 transition-transform">
+                    <img src="https://tse1.mm.bing.net/th/id/OIP.abdI13165jy5FscY3HbQqAHaHb?r=0&pid=Api&h=220&P=0" alt="CCS Logo" class="w-full h-full object-contain rounded-full">
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-extrabold text-2xl tracking-tight leading-none drop-shadow">TRIMEX<span class="text-gray-100">CONNECT</span></span>
+                    <span class="text-xs text-gray-200 tracking-normal font-sans font-semibold">College of Computer Studies</span>
+                </div>
+            </a>
+
+            <!-- Right Navbar Links -->
+            <nav class="hidden md:flex space-x-8 items-center text-lg font-bold tracking-wide">
+                <a href="#" onclick="switchView('home-view')" class="hover:text-yellow-300 transition-colors py-2">Home</a>
+                
+                <!-- Gazette Dropdown -->
+                <div class="relative nav-item-dropdown group py-2">
+                    <button class="hover:text-yellow-300 transition-colors flex items-center space-x-1 focus:outline-none">
+                        <span>Gazette</span>
+                        <i class="fa-solid fa-caret-down text-sm ml-1"></i>
+                    </button>
+                    <div class="dropdown-content hidden absolute left-0 top-full w-48 bg-white text-gray-900 rounded-xl shadow-2xl py-2 z-50 border border-gray-200">
+                        <a href="#" onclick="switchView('gazette-1-view')" class="block px-4 py-3 hover:bg-gray-100 text-gray-900 text-base font-semibold border-b border-gray-100">Gazette 1</a>
+                        <a href="#" onclick="switchView('gazette-2-view')" class="block px-4 py-3 hover:bg-gray-100 text-gray-900 text-base font-semibold">Gazette 2</a>
+                    </div>
+                </div>
+
+                <!-- CCS-MS Dropdown (Complete 14 Items) -->
+                <div class="relative nav-item-dropdown group py-2">
+                    <button class="hover:text-yellow-300 transition-colors flex items-center space-x-1 focus:outline-none">
+                        <span>CCS-MS</span>
+                        <i class="fa-solid fa-caret-down text-sm ml-1"></i>
+                    </button>
+                    <div class="dropdown-content hidden absolute left-0 top-full w-80 bg-white text-gray-900 rounded-xl shadow-2xl py-2 z-50 max-h-96 overflow-y-auto border-2 border-trimexRed font-sans font-medium text-sm">
+                        <a href="https://trimexconnect.com/capstonethesis/login.php" target="_blank" class="block px-4 py-2.5 hover:bg-red-50 border-b border-gray-100 transition-colors">Research Management System</a>
+                        <a href="https://trimexconnect.com/researchmanual/" target="_blank" class="block px-4 py-2.5 hover:bg-red-50 border-b border-gray-100 transition-colors">Research Manual</a>
+                        <a href="https://trimexconnect.com/e-data/" target="_blank" class="block px-4 py-2.5 hover:bg-red-50 border-b border-gray-100 transition-colors">Data Science Platform</a>
+                        <a href="https://trimexconnect.com/coderkiosk/" target="_blank" class="block px-4 py-2.5 hover:bg-red-50 border-b border-gray-100 transition-colors">CCS Online Compiler</a>
+                        <a href="https://trimexconnect.com/iskuling/lms/login.php" target="_blank" class="block px-4 py-2.5 hover:bg-red-50 border-b border-gray-100 transition-colors">CCS LMS Management</a>
+                        <a href="https://trimexconnect.com/voting/acts/" target="_blank" class="block px-4 py-2.5 hover:bg-red-50 border-b border-gray-100 transition-colors">CCS ACTS Voting System</a>
+                        <a href="https://trimexconnect.com/voting/acse/" target="_blank" class="block px-4 py-2.5 hover:bg-red-50 border-b border-gray-100 transition-colors">ACSE ACTS Voting System</a>
+                        <a href="https://trimexconnect.com/crowntab/" target="_blank" class="block px-4 py-2.5 hover:bg-red-50 border-b border-gray-100 transition-colors">CCS Pageant Management System</a>
+                        <a href="https://trimexconnect.com/academy/netsec/login.php" target="_blank" class="block px-4 py-2.5 hover:bg-red-50 border-b border-gray-100 transition-colors">Cybersecurity Arena</a>
+                        <a href="https://trimexconnect.com/e-hack/" target="_blank" class="block px-4 py-2.5 hover:bg-red-50 border-b border-gray-100 transition-colors">Educational Cyber Range</a>
+                        <a href="https://trimexconnect.com/dikoalam/infosec/" target="_blank" class="block px-4 py-2.5 hover:bg-red-50 border-b border-gray-100 transition-colors">Network Cybersecurity Training Lab</a>
+                        <a href="https://trimexconnect.com/dikoalam/infosec/" target="_blank" class="block px-4 py-2.5 hover:bg-red-50 border-b border-gray-100 transition-colors">Cybersecurity Training Lab</a>
+                        <a href="https://trimexconnect.com/ojtms/" target="_blank" class="block px-4 py-2.5 hover:bg-red-50 border-b border-gray-100 transition-colors">CCS OJT Monitoring</a>
+                        <a href="https://trimexconnect.com/201ccs/" target="_blank" class="block px-4 py-2.5 hover:bg-red-50 transition-colors">CCS Student and Faculty Portfolio</a>
+                    </div>
+                </div>
+
+                <!-- Enroll Dropdown (Desktop) -->
+                <div id="enroll-dropdown" class="relative py-2">
+                    <button id="enroll-dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false"
+                        class="hover:text-yellow-300 transition-colors flex items-center space-x-1 focus:outline-none">
+                        <span>Enroll</span>
+                        <i class="fa-solid fa-caret-down text-sm ml-1"></i>
+                    </button>
+                    <div id="enroll-dropdown-menu"
+                        class="hidden absolute left-0 top-full w-48 bg-white rounded-xl shadow-2xl py-2 z-50 border border-gray-200">
+                        <a href="https://www.trimexcolleges.edu.ph/online-enrollment" target="_blank" rel="noopener noreferrer"
+                           class="block px-4 py-3 hover:bg-red-50 text-gray-900 text-base font-semibold border-b border-gray-100">New Student</a>
+                        <a href="https://www.trimexcolleges.edu.ph/online-enrollment" target="_blank" rel="noopener noreferrer"
+                           class="block px-4 py-3 hover:bg-red-50 text-gray-900 text-base font-semibold border-b border-gray-100">Old Student</a>
+                        <a href="https://www.trimexcolleges.edu.ph/online-enrollment" target="_blank" rel="noopener noreferrer"
+                           class="block px-4 py-3 hover:bg-red-50 text-gray-900 text-base font-semibold">Transferee</a>
+                    </div>
+                </div>
+                <a href="#" onclick="switchView('about-view')" class="hover:text-yellow-300 transition-colors py-2">About</a>
+            </nav>
+
+            <!-- Mobile Hamburger Toggle -->
+            <div class="md:hidden">
+                <button id="mobile-toggle" class="text-white text-2xl p-2 focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-nav" class="hidden md:hidden bg-trimexDarkRed border-t border-red-900 px-6 py-4 space-y-3 font-sans">
+            <a href="#" onclick="switchView('home-view'); closeMobileNav();" class="block text-white font-bold text-lg">Home</a>
+            
+            <div class="border-l-2 border-yellow-400 pl-3 space-y-2">
+                <span class="text-yellow-400 font-bold text-xs uppercase tracking-wider block">Gazette Volumes</span>
+                <a href="#" onclick="switchView('gazette-1-view'); closeMobileNav();" class="block text-white text-sm">Gazette 1</a>
+                <a href="#" onclick="switchView('gazette-2-view'); closeMobileNav();" class="block text-white text-sm">Gazette 2</a>
+            </div>
+
+            <div class="border-l-2 border-yellow-400 pl-3 space-y-2 max-h-60 overflow-y-auto">
+                <span class="text-yellow-400 font-bold text-xs uppercase tracking-wider block">CCS-MS Portals</span>
+                <a href="https://trimexconnect.com/capstonethesis/login.php" target="_blank" class="block text-gray-200 text-xs">Research Management System</a>
+                <a href="https://trimexconnect.com/researchmanual/" target="_blank" class="block text-gray-200 text-xs">Research Manual</a>
+                <a href="https://trimexconnect.com/e-data/" target="_blank" class="block text-gray-200 text-xs">Data Science Platform</a>
+                <a href="https://trimexconnect.com/coderkiosk/" target="_blank" class="block text-gray-200 text-xs">CCS Online Compiler</a>
+                <a href="https://trimexconnect.com/iskuling/lms/login.php" target="_blank" class="block text-gray-200 text-xs">CCS LMS Management</a>
+                <a href="https://trimexconnect.com/voting/acts/" target="_blank" class="block text-gray-200 text-xs">CCS ACTS Voting System</a>
+                <a href="https://trimexconnect.com/voting/acse/" target="_blank" class="block text-gray-200 text-xs">ACSE ACTS Voting System</a>
+                <a href="https://trimexconnect.com/crowntab/" target="_blank" class="block text-gray-200 text-xs">CCS Pageant Management System</a>
+                <a href="https://trimexconnect.com/academy/netsec/login.php" target="_blank" class="block text-gray-200 text-xs">Cybersecurity Arena</a>
+                <a href="https://trimexconnect.com/e-hack/" target="_blank" class="block text-gray-200 text-xs">Educational Cyber Range</a>
+                <a href="https://trimexconnect.com/dikoalam/infosec/" target="_blank" class="block text-gray-200 text-xs">Network Cybersecurity Lab</a>
+                <a href="https://trimexconnect.com/dikoalam/infosec/" target="_blank" class="block text-gray-200 text-xs">Cybersecurity Training Lab</a>
+                <a href="https://trimexconnect.com/ojtms/" target="_blank" class="block text-gray-200 text-xs">CCS OJT Monitoring</a>
+                <a href="https://trimexconnect.com/201ccs/" target="_blank" class="block text-gray-200 text-xs">Student & Faculty Portfolio</a>
+            </div>
+
+            
+<!-- Mobile Enroll Dropdown -->
+            <div class="space-y-2">
+                <button type="button"
+                    onclick="document.getElementById('mobile-enroll-options').classList.toggle('hidden')"
+                    class="w-full text-left text-yellow-300 font-bold text-lg flex items-center justify-between"
+                    aria-controls="mobile-enroll-options">
+                    <span>Enroll Now</span>
+                    <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div id="mobile-enroll-options" class="hidden bg-white rounded-lg shadow-md p-3 space-y-2">
+                    <a href="https://www.trimexcolleges.edu.ph/online-enrollment" target="_blank" rel="noopener noreferrer" onclick="closeMobileNav()" class="block text-gray-900 hover:bg-red-50 rounded px-3 py-2">New Student</a>
+                    <a href="https://www.trimexcolleges.edu.ph/online-enrollment" target="_blank" rel="noopener noreferrer" onclick="closeMobileNav()" class="block text-gray-900 hover:bg-red-50 rounded px-3 py-2">Old Student</a>
+                    <a href="https://www.trimexcolleges.edu.ph/online-enrollment" target="_blank" rel="noopener noreferrer" onclick="closeMobileNav()" class="block text-gray-900 hover:bg-red-50 rounded px-3 py-2">Transferee</a>
+                </div>
+            </div>
+            <a href="#" onclick="switchView('about-view'); closeMobileNav();" class="block text-white font-bold text-lg">About</a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- ================= LANDING PAGE VIEW (IMAGE 1 REPLICA) ================= -->
+        <section id="home-view" class="space-y-8">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- TOP LEFT: QUICK ACCESS -->
+                <div>
+                    <h2 class="text-2xl font-black text-white mb-3 tracking-wide uppercase drop-shadow-md">QUICK ACCESS</h2>
+                    <div class="canva-card-container grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        
+                        <!-- Student Portal -->
+                        <a href="https://trimexcolleges.edu.ph/student" target="_blank" class="canva-card h-44 bg-cover bg-center relative flex items-center justify-center p-4 text-center group" style="background-image: url('https://tse3.mm.bing.net/th/id/OIP.H3lHrS0tO1fyLczKIzgiYwHaDM?r=0&pid=Api&h=220&P=0');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-red-950/90 via-red-900/60 to-red-900/40 group-hover:bg-red-900/50 transition-colors"></div>
+                            <span class="relative z-10 text-white font-extrabold text-2xl leading-tight drop-shadow-lg tracking-wide uppercase">
+                                STUDENT<br>PORTAL
+                            </span>
+                        </a>
+
+                        <!-- Course Catalog -->
+                        <div onclick="openLightbox('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80', 'COURSE CATALOG')" class="canva-card h-44 bg-cover bg-center relative flex items-center justify-center p-4 text-center group" style="background-image: url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-red-950/90 via-red-900/60 to-red-900/40 group-hover:bg-red-900/50 transition-colors"></div>
+                            <span class="relative z-10 text-white font-extrabold text-2xl leading-tight drop-shadow-lg tracking-wide uppercase">
+                                COURSE<br>CATALOG
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- TOP RIGHT: EVENTS & NEWS -->
+                <div>
+                    <h2 class="text-2xl font-black text-white mb-3 tracking-wide uppercase drop-shadow-md">EVENTS & NEWS</h2>
+                    <div class="canva-card-container grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        
+                        <!-- Buklod 2026 Intramurals -->
+                        <div onclick="openLightbox('https://scontent.fmnl13-3.fna.fbcdn.net/v/t39.99422-6/838271339_1103136875979363_5952372575954135296_n.png?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=105&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFUuA1Bbijb_kb0xCMzWfeHvQUgEAvYVi29BSAQC9hWLfT2BWsMJjDbC2CAJKOC8D0Qbj9_uEWwRyO_AtJUvgwv&_nc_ohc=h68Y4ZTTfOsQ7kNvwFOWcOq&_nc_oc=AdqJowWMzMPNlnKAedQr68Ia1LJ0doWGV93VKtTvnsTHGQyZ7ZIZdX5cGI6UY-SRCHc&_nc_zt=14&_nc_ht=scontent.fmnl13-3.fna&_nc_gid=-__W_ffoionRmAAGXrWWWQ&_nc_ss=7b2a8&oh=00_AQMS3VU4uOhtB4rXHJ95NniyHlyJX99Q1GV0vU1C6lXHVA&oe=6ACEE5F6', 'BUKLOD 2026 INTRAMURALS')" class="canva-card h-44 bg-cover bg-center relative flex items-center justify-center p-4 text-center group" style="background-image: url('https://scontent.fmnl13-3.fna.fbcdn.net/v/t39.99422-6/838271339_1103136875979363_5952372575954135296_n.png?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=105&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFUuA1Bbijb_kb0xCMzWfeHvQUgEAvYVi29BSAQC9hWLfT2BWsMJjDbC2CAJKOC8D0Qbj9_uEWwRyO_AtJUvgwv&_nc_ohc=h68Y4ZTTfOsQ7kNvwFOWcOq&_nc_oc=AdqJowWMzMPNlnKAedQr68Ia1LJ0doWGV93VKtTvnsTHGQyZ7ZIZdX5cGI6UY-SRCHc&_nc_zt=14&_nc_ht=scontent.fmnl13-3.fna&_nc_gid=-__W_ffoionRmAAGXrWWWQ&_nc_ss=7b2a8&oh=00_AQMS3VU4uOhtB4rXHJ95NniyHlyJX99Q1GV0vU1C6lXHVA&oe=6ACEE5F6');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-red-950/90 via-red-900/60 to-red-900/40 group-hover:bg-red-900/50 transition-colors"></div>
+                            <span class="relative z-10 text-white font-extrabold text-2xl leading-tight drop-shadow-lg tracking-wide uppercase">
+                                NOV, 14-20
+                            </span>
+                        </div>
+
+                        <!-- Officer in Charge News -->
+                        <div onclick="openLightbox('https://scontent.fmnl13-4.fna.fbcdn.net/v/t39.99422-6/832930231_1147744677914494_7485513815897364773_n.png?stp=dst-jpg_tt6&cstp=mx2000x2000&ctp=s206x206&_nc_cat=104&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=50ad20&_nc_eui2=AeEdcJk7bMh9oVi1DoR5r_ewGXQMkPIOz64ZdAyQ8g7Priaxmvd43GlSbi8XGrnon1liJ46SGZXw7bGyfBaN_vPW&_nc_ohc=N5BK8PYvYP4Q7kNvwGvipjO&_nc_oc=AdozO3Y3O8_L_G-v6cwSF_8eiLRBFuYDZjEp4ibjpjJlyd1IqUs1rA9itb3PeczwdiQ&_nc_zt=14&_nc_ht=scontent.fmnl13-4.fna&_nc_gid=Cy3avWFzMwaG44i6kWVkUQ&_nc_ss=7b2a8&oh=00_AQNyJswe61-zSt7l9Che-8W8EraIYJ32IIcndvMtkQXo6A&oe=6ACEBB1B', 'Dr. Freddie B. Bulauan - Officer-in-Charge')" class="canva-card h-44 bg-cover bg-center relative flex items-center justify-center p-4 text-center group" style="background-image: url('https://scontent.fmnl13-4.fna.fbcdn.net/v/t39.99422-6/832930231_1147744677914494_7485513815897364773_n.png?stp=dst-jpg_tt6&cstp=mx2000x2000&ctp=s206x206&_nc_cat=104&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=50ad20&_nc_eui2=AeEdcJk7bMh9oVi1DoR5r_ewGXQMkPIOz64ZdAyQ8g7Priaxmvd43GlSbi8XGrnon1liJ46SGZXw7bGyfBaN_vPW&_nc_ohc=N5BK8PYvYP4Q7kNvwGvipjO&_nc_oc=AdozO3Y3O8_L_G-v6cwSF_8eiLRBFuYDZjEp4ibjpjJlyd1IqUs1rA9itb3PeczwdiQ&_nc_zt=14&_nc_ht=scontent.fmnl13-4.fna&_nc_gid=Cy3avWFzMwaG44i6kWVkUQ&_nc_ss=7b2a8&oh=00_AQNyJswe61-zSt7l9Che-8W8EraIYJ32IIcndvMtkQXo6A&oe=6ACEBB1B');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-red-950/90 via-red-900/60 to-red-900/40 group-hover:bg-red-900/50 transition-colors"></div>
+                            <span class="relative z-10 text-white font-extrabold text-2xl leading-tight drop-shadow-lg tracking-wide uppercase">
+                                3HRS AGO
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-2">
+                
+                <!-- BOTTOM LEFT: COLLEGE UPDATES -->
+                <div>
+                    <h2 class="text-2xl font-black text-white mb-3 tracking-wide uppercase drop-shadow-md">COLLEGE UPDATES</h2>
+                    <div class="canva-card-container grid grid-cols-3 gap-3">
+                        
+                        <!-- Update 1 -->
+                        <div onclick="openLightbox('https://scontent.fmnl13-2.fna.fbcdn.net/v/t39.99422-6/839765914_1118054927425533_6215473513771499635_n.png?stp=c0.135.1638.1638a_dst-jpg_tt6&cstp=mx1638x1638&ctp=s206x206&_nc_cat=103&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=714c7a&_nc_eui2=AeEIdHAqIuWXbauFOjCIfubEJCdRuT-03dQkJ1G5P7Td1M_EtD4WYxDH0RjwU6ZksZ9NnTNUD8z0zBiysjXCx55Z&_nc_ohc=rnls7YD39WAQ7kNvwFDp1Jr&_nc_oc=Adro5RM1o707rOxGIpRcS36Pi3djSqUkP2ZJDpIZrWGAhaU0_k2My9xWWGeArOJ5sFE&_nc_zt=14&_nc_ht=scontent.fmnl13-2.fna&_nc_gid=6na0MwomdfzfhI12NA3xjg&_nc_ss=7b2a8&oh=00_AQPEIfHYWCDs7w8p_9Wzf2y0CV5kVMcFXoPJVEy21uBtpg&oe=6ACEE8D4', 'Payment Schedule Announcement')" class="canva-card h-40 bg-cover bg-center relative flex items-center justify-center p-2 text-center group" style="background-image: url('https://scontent.fmnl13-2.fna.fbcdn.net/v/t39.99422-6/839765914_1118054927425533_6215473513771499635_n.png?stp=c0.135.1638.1638a_dst-jpg_tt6&cstp=mx1638x1638&ctp=s206x206&_nc_cat=103&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=714c7a&_nc_eui2=AeEIdHAqIuWXbauFOjCIfubEJCdRuT-03dQkJ1G5P7Td1M_EtD4WYxDH0RjwU6ZksZ9NnTNUD8z0zBiysjXCx55Z&_nc_ohc=rnls7YD39WAQ7kNvwFDp1Jr&_nc_oc=Adro5RM1o707rOxGIpRcS36Pi3djSqUkP2ZJDpIZrWGAhaU0_k2My9xWWGeArOJ5sFE&_nc_zt=14&_nc_ht=scontent.fmnl13-2.fna&_nc_gid=6na0MwomdfzfhI12NA3xjg&_nc_ss=7b2a8&oh=00_AQPEIfHYWCDs7w8p_9Wzf2y0CV5kVMcFXoPJVEy21uBtpg&oe=6ACEE8D4');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-red-950/90 via-red-900/50 to-transparent"></div>
+                            <span class="relative z-10 text-white font-bold text-xs uppercase drop-shadow">ANNOUNCEMENT</span>
+                        </div>
+
+                        <!-- Update 2 -->
+                        <div onclick="openLightbox('https://scontent.fmnl13-5.fna.fbcdn.net/v/t39.30808-6/793029191_1556206729876106_6503224807264582813_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1364&ctp=s2048x1364&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFXZsvjM_ZvrGz3hGlubOTe3dZwbEFbY1Xd1nBsQVtjVYPMk0s877J0pFLy546lBfN0L70PX-qidBl3lC0nfWSQ&_nc_ohc=e8EeXbMxzWkQ7kNvwHG4yF7&_nc_oc=AdqVsZfwmSSozD1VB7yw-GQPu5-D4r4xWiVg8uW6HI3VJOGE75fAN6mzSBc7iVRYr3Q&_nc_zt=23&_nc_ht=scontent.fmnl13-5.fna&_nc_gid=zvoinDilrzOd_w6yluJN7g&_nc_ss=7b2a8&oh=00_AQP3bP9FhZravyGe1OLeMx9ugq9JZ02sCrmlDhjS27ytAw&oe=6ACEBCD6', 'Student Group Activities')" class="canva-card h-40 bg-cover bg-center relative flex items-center justify-center p-2 text-center group" style="background-image: url('https://scontent.fmnl13-5.fna.fbcdn.net/v/t39.30808-6/793029191_1556206729876106_6503224807264582813_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1364&ctp=s2048x1364&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFXZsvjM_ZvrGz3hGlubOTe3dZwbEFbY1Xd1nBsQVtjVYPMk0s877J0pFLy546lBfN0L70PX-qidBl3lC0nfWSQ&_nc_ohc=e8EeXbMxzWkQ7kNvwHG4yF7&_nc_oc=AdqVsZfwmSSozD1VB7yw-GQPu5-D4r4xWiVg8uW6HI3VJOGE75fAN6mzSBc7iVRYr3Q&_nc_zt=23&_nc_ht=scontent.fmnl13-5.fna&_nc_gid=zvoinDilrzOd_w6yluJN7g&_nc_ss=7b2a8&oh=00_AQP3bP9FhZravyGe1OLeMx9ugq9JZ02sCrmlDhjS27ytAw&oe=6ACEBCD6');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-red-950/90 via-red-900/50 to-transparent"></div>
+                            <span class="relative z-10 text-white font-bold text-xs uppercase drop-shadow">CAMPUS LIFE</span>
+                        </div>
+
+                        <!-- Update 3 -->
+                        <div onclick="openLightbox('https://scontent.fmnl13-2.fna.fbcdn.net/v/t39.30808-6/794295818_1553203903509722_9010417004559772103_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=110&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeF0lzR07PhfVayiqCVa0YQ-kpHvtati7rWSke-1q2Lutc3CSRAAvIqXFpFcA7tII6-kb06f6ZpqGoIo4NWawJfg&_nc_ohc=zKGKlsBuAIQQ7kNvwECgYDY&_nc_oc=AdoNPI6oEIDxrP3fmUWK4bX_3OgTpr2d4g_mO_SH5Yvlo7C1cIeozk2hC76Eyfm4qyE&_nc_zt=23&_nc_ht=scontent.fmnl13-2.fna&_nc_gid=_yqM7ubdGzYL9KaVL-geLw&_nc_ss=7b2a8&oh=00_AQO2FAss4RpKOXPTNewZy0a2wazBir1rXxIorMM0jr089A&oe=6ACEF15D', 'Central Student Council Election 2026')" class="canva-card h-40 bg-cover bg-center relative flex items-center justify-center p-2 text-center group" style="background-image: url('https://scontent.fmnl13-2.fna.fbcdn.net/v/t39.30808-6/794295818_1553203903509722_9010417004559772103_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=110&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeF0lzR07PhfVayiqCVa0YQ-kpHvtati7rWSke-1q2Lutc3CSRAAvIqXFpFcA7tII6-kb06f6ZpqGoIo4NWawJfg&_nc_ohc=zKGKlsBuAIQQ7kNvwECgYDY&_nc_oc=AdoNPI6oEIDxrP3fmUWK4bX_3OgTpr2d4g_mO_SH5Yvlo7C1cIeozk2hC76Eyfm4qyE&_nc_zt=23&_nc_ht=scontent.fmnl13-2.fna&_nc_gid=_yqM7ubdGzYL9KaVL-geLw&_nc_ss=7b2a8&oh=00_AQO2FAss4RpKOXPTNewZy0a2wazBir1rXxIorMM0jr089A&oe=6ACEF15D');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-red-950/90 via-red-900/50 to-transparent"></div>
+                            <span class="relative z-10 text-white font-bold text-xs uppercase drop-shadow">VOTING OPEN</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- BOTTOM RIGHT: FEATURED CAMPUS FACILITIES -->
+                <div>
+                    <h2 class="text-2xl font-black text-white mb-3 tracking-wide uppercase drop-shadow-md">FEATURED CAMPUS FACILITIES</h2>
+                    <div class="canva-card-container grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        
+                        <!-- Facility 1: New Cafeteria -->
+                        <div onclick="openLightbox('https://scontent.fmnl13-1.fna.fbcdn.net/v/t39.30808-6/829507849_1578637780966334_2813564939624499517_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1152&ctp=s2048x1152&_nc_cat=108&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHSJUZ97zY4syVMNOlk-oWRTTJvWYejK9VNMm9Zh6Mr1WZiiPHp-qBasKKu8zkKFigLY1RzYqXzli4L_FxI-r4-&_nc_ohc=6oUdHvOeyw0Q7kNvwHs2fBB&_nc_oc=AdoVs6ElC0wtYxFoF49o4Q6JYhrQp-K6kQlrsaQJ-_cwbzVsd0bGnuyPYZBpQLsqcEw&_nc_zt=23&_nc_ht=scontent.fmnl13-1.fna&_nc_gid=op7_zzhe79iNoleZpNqApw&_nc_ss=7b2a8&oh=00_AQP-UDnVLgb8XeW64aFhnPKbeaXVZhAlwRsICnWl0UdQPg&oe=6ACEEBE7', 'NEW CAFETERIA-OPENING')" class="flex flex-col items-center">
+                            <div class="canva-card h-36 w-full bg-cover bg-center relative" style="background-image: url('https://scontent.fmnl13-1.fna.fbcdn.net/v/t39.30808-6/829507849_1578637780966334_2813564939624499517_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1152&ctp=s2048x1152&_nc_cat=108&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHSJUZ97zY4syVMNOlk-oWRTTJvWYejK9VNMm9Zh6Mr1WZiiPHp-qBasKKu8zkKFigLY1RzYqXzli4L_FxI-r4-&_nc_ohc=6oUdHvOeyw0Q7kNvwHs2fBB&_nc_oc=AdoVs6ElC0wtYxFoF49o4Q6JYhrQp-K6kQlrsaQJ-_cwbzVsd0bGnuyPYZBpQLsqcEw&_nc_zt=23&_nc_ht=scontent.fmnl13-1.fna&_nc_gid=op7_zzhe79iNoleZpNqApw&_nc_ss=7b2a8&oh=00_AQP-UDnVLgb8XeW64aFhnPKbeaXVZhAlwRsICnWl0UdQPg&oe=6ACEEBE7');">
+                                <div class="absolute inset-0 bg-gradient-to-t from-red-950/90 via-red-900/50 to-red-900/20"></div>
+                            </div>
+                            <span class="text-trimexRed font-black text-sm mt-2 tracking-tight uppercase text-center bg-white px-3 py-1 rounded-full shadow">
+                                NEW CAFETERIA-OPENING
+                            </span>
+                        </div>  
+
+                        <!-- Facility 2: MacOS Laboratory -->
+                        <div onclick="openLightbox('https://tse4.mm.bing.net/th/id/OIP.puAE5StKFycq-gCSHE4A5wHaE8?r=0&pid=Api&h=220&P=0', 'MacOS- Laboratory')" class="flex flex-col items-center">
+                            <div class="canva-card h-36 w-full bg-cover bg-center relative" style="background-image: url('https://tse4.mm.bing.net/th/id/OIP.puAE5StKFycq-gCSHE4A5wHaE8?r=0&pid=Api&h=220&P=0');">
+                                <div class="absolute inset-0 bg-gradient-to-t from-red-950/90 via-red-900/50 to-red-900/20"></div>
+                            </div>
+                            <span class="text-trimexRed font-black text-sm mt-2 tracking-tight uppercase text-center bg-white px-3 py-1 rounded-full shadow">
+                                MacOS- Laboratory
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================= GAZETTE 1 VIEW (EXACT IMAGE 2 REPLICA) ================= -->
+        <section id="gazette-1-view" class="hidden">
+            <div class="gazette-container rounded-3xl p-8 md:p-16 text-center max-w-4xl mx-auto shadow-2xl border-4 border-white/20">
+                <h1 class="text-5xl md:text-8xl font-black tracking-widest text-white drop-shadow-2xl">GAZETTE</h1>
+                <h2 class="text-3xl md:text-5xl font-black text-white tracking-widest mb-8 drop-shadow-lg">VOLUME 1</h2>
+                
+                <p class="text-base md:text-lg text-white font-bold leading-relaxed max-w-3xl mx-auto mb-10 tracking-wide text-shadow">
+                    Gazette 1 is a collection of school updates featuring various events, seminars, activities, and programs held for the students and the school community. It highlights important happenings and provides students with information about the different activities and opportunities happening within the school.
+                </p>
+
+                <a href="https://trimexconnect.com/ccs/gazette/" target="_blank" class="inline-block bg-white text-trimexRed font-black text-xl px-12 py-4 rounded-full shadow-2xl hover:bg-yellow-400 hover:text-black transition-all transform hover:scale-105 tracking-wider">
+                    READ MORE
+                </a>
+            </div>
+        </section>
+
+        <!-- ================= GAZETTE 2 VIEW (EXACT IMAGE 3 REPLICA) ================= -->
+        <section id="gazette-2-view" class="hidden">
+            <div class="gazette-container rounded-3xl p-8 md:p-16 text-center max-w-4xl mx-auto shadow-2xl border-4 border-white/20">
+                <h1 class="text-5xl md:text-8xl font-black tracking-widest text-white drop-shadow-2xl">GAZETTE</h1>
+                <h2 class="text-3xl md:text-5xl font-black text-white tracking-widest mb-8 drop-shadow-lg">VOLUME 2</h2>
+                
+                <p class="text-base md:text-lg text-white font-bold leading-relaxed max-w-3xl mx-auto mb-10 tracking-wide text-shadow">
+                    Gazette 2 highlights the latest school events, seminars, student activities, and programs that encourage learning, leadership, and participation. It keeps students updated about important happenings and opportunities within the school community.
+                </p>
+
+                <a href="https://trimexconnect.com/ccs/gazette/" target="_blank" class="inline-block bg-white text-trimexRed font-black text-xl px-12 py-4 rounded-full shadow-2xl hover:bg-yellow-400 hover:text-black transition-all transform hover:scale-105 tracking-wider">
+                    READ MORE
+                </a>
+            </div>
+        </section>
+
+        <!-- ================= ABOUT VIEW ================= -->
+        <section id="about-view" class="hidden max-w-3xl mx-auto">
+            <div class="bg-white/90 backdrop-blur-md rounded-3xl p-8 md:p-10 text-gray-900 border-4 border-trimexRed shadow-2xl font-sans">
+                <div class="text-center mb-8">
+                    <div class="w-28 h-28 rounded-full mx-auto mb-3 shadow-lg overflow-hidden border-4 border-trimexRed bg-white">
+                        <img src="https://scontent.fmnl13-2.fna.fbcdn.net/v/t39.30808-6/497521755_3618523301782052_4230515840934607774_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1080&ctp=s1080x1080&_nc_cat=100&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeG9e3aicai1CvUkQR9EEOqv1CWuIqrZr-PUJa4iqtmv4wIlddXi86yncsQbmOT6uF6ZcPYb6bTINw7Jwy8QsFeN&_nc_ohc=kLzn8Ldh8L8Q7kNvwE23hUb&_nc_oc=AdoObQxJ9q9ncCEIOCBk5hokZp6--OPbXy5_lNv_4oLDVAGLS-kup6nEeTuqxF3vRJA&_nc_zt=23&_nc_ht=scontent.fmnl13-2.fna&_nc_gid=wJoo0g773U6x1gytKP8Lgw&_nc_ss=7b2a8&oh=00_AQPPnzzetm9QaEnQLLSj7SOsxNWvZWv0rRZG9bsabx-F2w&oe=6ACEFA96" alt="Narra, Fionna Lheica D. - Profile Photo" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=&quot;fa-solid fa-user-gear text-trimexRed text-4xl flex items-center justify-center h-full&quot;></i>';">
+                    </div>
+                    <h2 class="text-3xl font-black text-trimexRed">ABOUT THE FRONT-END DESIGNER</h2>
+                    <p class="text-gray-600 font-semibold text-sm">Midterm Project Submission</p>
+                </div>
+
+                <div class="space-y-4 text-base font-bold text-gray-800 bg-red-50 p-6 rounded-2xl border border-red-200">
+                    <div class="flex justify-between border-b border-red-200 pb-2">
+                        <span class="text-trimexRed">Name:</span>
+                        <span class="text-right">Narra, Fionna Lheica D.</span>
+                    </div>
+                    <div class="flex justify-between border-b border-red-200 pb-2">
+                        <span class="text-trimexRed">Course:</span>
+                        <span class="text-right">BS Information Technology</span>
+                    </div>
+                    <div class="flex justify-between items-start gap-4 border-b border-red-200 pb-2">
+                        <span class="text-trimexRed shrink-0">Major:</span>
+                        <span class="text-right">Mobile and Web Development</span>
+                    </div>
+                    <div class="flex justify-between items-start gap-4 border-b border-red-200 pb-2">
+                        <span class="text-trimexRed shrink-0">Subject:</span>
+                        <span class="text-right">UserDesign Laboratory</span>
+                    </div>
+                    <div class="flex justify-between items-start gap-4 border-b border-red-200 pb-2">
+                        <span class="text-trimexRed shrink-0">Professor:</span>
+                        <span class="text-right">Dr. Louie Agustin</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-trimexDarkRed text-white p-6 rounded-2xl">
+                    <h3 class="text-lg font-bold text-yellow-300 mb-2">Website Description</h3>
+                    <p class="text-sm font-normal leading-relaxed">
+                        This functional landing page is designed to replace the Trimex Connect interface with a clean, fully responsive, and pixel-perfect design based on the Canva wireframe concepts. It features quick access links, interactive lightboxes, and seamless navigation across all CCS modules.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Lightbox Modal for Picture Click View -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/90 hidden flex items-center justify-center p-4 backdrop-blur-md">
+        <!-- Close 'X' Button -->
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white text-4xl font-black bg-trimexRed hover:bg-red-600 w-12 h-12 rounded-full flex items-center justify-center shadow-2xl transition-transform transform hover:scale-110">
+            &times;
+        </button>
+
+        <div class="max-w-4xl w-full text-center">
+            <img id="lightbox-img" src="" alt="Preview" class="max-h-[80vh] mx-auto rounded-2xl shadow-2xl object-contain">
+            <h3 id="lightbox-caption" class="text-white text-xl font-black mt-4 uppercase tracking-wide bg-trimexRed/80 py-2 px-6 rounded-full inline-block border border-white/20"></h3>
+        </div>
+    </div>
+
+    <!-- Footer Replica -->
+    <footer class="bg-trimexRed text-white text-center py-4 text-base font-black tracking-wider border-t-2 border-red-900 shadow-2xl">
+        CCS &copy; TRIMEX CONNECT 2026
+    </footer>
+
+    <script>
+        // Switch between Views
+        function switchView(viewId) {
+            const views = ['home-view', 'gazette-1-view', 'gazette-2-view', 'about-view'];
+            views.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    if (id === viewId) {
+                        element.classList.remove('hidden');
+                    } else {
+                        element.classList.add('hidden');
+                    }
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Lightbox Image Expansion Modal
+        function openLightbox(imgSrc, caption) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            const cap = document.getElementById('lightbox-caption');
+
+            img.src = imgSrc;
+            cap.textContent = caption;
+            modal.classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').classList.add('hidden');
+        }
+
+        document.getElementById('lightbox-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+
+        
+/* Enroll Dropdown: Hover and Click */
+const enrollDropdown = document.getElementById('enroll-dropdown');
+const enrollToggle = document.getElementById('enroll-dropdown-toggle');
+const enrollMenu = document.getElementById('enroll-dropdown-menu');
+
+if (enrollDropdown && enrollToggle && enrollMenu) {
+
+    // Open or close when clicked
+    enrollToggle.addEventListener('click', function (event) {
+        event.stopPropagation();
+
+        const isOpen = !enrollMenu.classList.contains('hidden');
+
+        enrollMenu.classList.toggle('hidden', isOpen);
+        enrollToggle.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    // Open when mouse enters
+    enrollDropdown.addEventListener('mouseenter', function () {
+        enrollMenu.classList.remove('hidden');
+        enrollToggle.setAttribute('aria-expanded', 'true');
+    });
+
+    // Close when mouse leaves
+    enrollDropdown.addEventListener('mouseleave', function () {
+        enrollMenu.classList.add('hidden');
+        enrollToggle.setAttribute('aria-expanded', 'false');
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', function (event) {
+        if (!enrollDropdown.contains(event.target)) {
+            enrollMenu.classList.add('hidden');
+            enrollToggle.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
+    </script>
+</body>
+</html>
