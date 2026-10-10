@@ -537,6 +537,20 @@ if (enrollDropdown && enrollToggle && enrollMenu) {
         }
     });
 }
+        // Mobile Hamburger Menu
+const mobileToggle = document.getElementById('mobile-toggle');
+const mobileNav = document.getElementById('mobile-nav');
+
+function closeMobileNav() {
+    mobileNav.classList.add('hidden');
+}
+
+if (mobileToggle && mobileNav) {
+    mobileToggle.addEventListener('click', function () {
+        mobileNav.classList.toggle('hidden');
+    });
+}
+
     </script>
 </body>
 </html>
